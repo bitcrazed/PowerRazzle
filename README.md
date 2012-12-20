@@ -8,7 +8,7 @@ Clone this repo to your favorite development tools root. I prefer X:\Dev\Tools (
 
 I suggest adding the following to your $profile:
 
-`
+```
 # Set the 'DevRoot' environment variable to point to the development root folder:
 if (test-path 'd:\dev\') { $env:DevRoot = 'd:\dev\' }
 elseif (test-path 'c:\dev\') { $env:DevRoot = 'c:\dev\' }
@@ -16,13 +16,13 @@ else { throw 'Cannot find dev path' }
 
 # Start the PowerRazzle environment initializer:
 & $env:DevRoot\Tools\PowerRazzle\Start-PowerRazzle.ps1
-`
+```
 
 Usage
 -----
 Open PowerShell and you should see something similar to the following welcome banner:
 
-`
+```
 Windows PowerShell
 Copyright (C) 2012 Microsoft Corporation. All rights reserved.
 
@@ -36,4 +36,4 @@ Adding folders to the path:
 Configuring aliases
 
 D:\dev>
-`
+```
