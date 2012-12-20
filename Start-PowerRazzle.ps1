@@ -21,10 +21,11 @@ function add-path([string] $folder, [bool] $quiet = $false)
         $paths += $folder
         $newPath = $paths -join ';'
         $env:path = $newPath
+        if (!$quiet) { write-output "    '$folder' added" }
     }
     else
     {
-        if ($quiet -ne $true) { write-warning "Folder '$folder' already exists in the path ($quiet)" }
+        if (!$quiet) { write-warning "Folder '$folder' already exists in the path ($quiet) - skipping" }
     }
 }
 
