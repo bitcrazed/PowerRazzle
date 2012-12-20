@@ -31,9 +31,11 @@ Copyright (C) 2012 Microsoft Corporation. All rights reserved.
 Installing Developer Tools:
     Configured Microsoft Visual Studio 11.0 environment
     Using Azure SDK version v1.6
-Adding folders to the path:
+Updating the path
     'C:\Program Files (x86)\Git\Bin' added
 Configuring aliases
+
+--- PowerRazzle is now at your command ---
 
 D:\dev>
 ```
