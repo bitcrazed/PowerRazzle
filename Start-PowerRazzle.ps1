@@ -11,6 +11,28 @@ function global:up([int]$numlevels)
     }
 }
 
+function global:Find-Path($Path, [switch]$All=$false, [Microsoft.PowerShell.Commands.TestPathType]$type="Any")
+{
+## You could  comment out the function stuff and use it as a script instead, with this line:
+# param($Path, [switch]$All=$false, [Microsoft.PowerShell.Commands.TestPathType]$type="Any")
+    if($(Test-Path $Path -Type $type)) {
+       return $path
+    } else {
+       [string[]]$paths = @($pwd); 
+       $paths += "$pwd;$env:path".split(";")
+       
+       $paths = Join-Path $paths $(Split-Path $Path -leaf) | ? { Test-Path $_ -Type $type }
+       if($paths.Length -gt 0) {
+          if($All) {
+             return $paths;
+          } else {
+             return $paths[0]
+          }
+       }
+    }
+    throw "Couldn't find a matching path of type $type"
+}
+
 #--- Private Functions ---
 function add-path([string] $folder, [bool] $quiet = $false)
 {
@@ -108,6 +130,7 @@ set-alias sub "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope globa
 set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
 set-alias grep 'select-string' -scope global
 set-alias d "${env:ProgramFiles}\Beyond Compare 3\BComp.com" -scope global
+set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 
 $Host.UI.RawUI.WindowTitle = "PowerRazzle"
 cd "$($env:DevRoot)Tools"
