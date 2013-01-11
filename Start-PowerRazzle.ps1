@@ -39,7 +39,6 @@ function add-path([string] $folder, [bool] $quiet = $false)
     $paths = $env:Path -split ';'
     if (!$paths.Contains($folder))
     {
-        if ($quiet -ne $true) { write-output "    '$folder' added" }
         $paths += $folder
         $newPath = $paths -join ';'
         $env:path = $newPath
@@ -131,6 +130,7 @@ set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope glob
 set-alias grep 'select-string' -scope global
 set-alias d "${env:ProgramFiles}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
+set-alias xc "xunit.console.clr4" -scope global
 
 $Host.UI.RawUI.WindowTitle = "PowerRazzle"
 cd "$($env:DevRoot)Tools"
