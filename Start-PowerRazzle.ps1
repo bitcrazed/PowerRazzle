@@ -89,15 +89,12 @@ write-output 'Installing Developer Tools:'
 if (test-path "${env:ProgramFiles(x86)}\Microsoft Visual Studio*") 
 {
     Write-Progress -Activity 'Configuring environment' -Status 'Configuring Visual Studio environment variables' -PercentComplete 20
-    
     $vsFolder = dir "${env:ProgramFiles(x86)}\Microsoft Visual Studio*" | 
         where {$_ -notlike '*SDK*' } | 
         sort {[System.Double]::Parse($_.Name.Replace('Microsoft Visual Studio ', ''))} -Descending | 
         select -First 1 -Unique -ExpandProperty Name
-    $vsPath = "${env:ProgramFiles(x86)}\$vsFolder"
-    
+    $vsPath = "${env:ProgramFiles(x86)}\$vsFolder"    
     exec-cmdscript "$vsPath\VC\vcvarsall.bat" x86
-
     write-output "    Configured $vsFolder environment"
 }
 else
@@ -106,7 +103,7 @@ else
 }
 
 # Find the latest version of the Azure SDK:
-$azureSdkPath = "$env:ProgramW6432\Windows Azure SDK"
+$azureSdkPath = "$env:ProgramW6432\Microsoft SDKs\Windows Azure\.NET SDK"
 if (test-path $azureSdkPath) 
 {
     Write-Progress -Activity "Configuring environment" -Status "Configuring Azure Development environment variables" -PercentComplete 30
@@ -119,11 +116,22 @@ else
 	write-warning '    No Azure SDK Installed!'
 }
 
+#Find whether the Azure Command Line is Installed:
+$azureCommandLinePath = "${$env:ProgramFiles(x86)}\Microsoft SDKs\Windows Azure\PowerShell\Azure"
+if (test-path $azureSdkPath) 
+{
+    write-output "    Azure Command-Line Tools Installed"
+}
+else
+{
+    write-warning '    No Azure Command-Line Installed!'
+}
+
 write-output "Updating the path"
 Write-Progress -Activity "Configuring environment" -Status "Updating Path" -PercentComplete 50
 add-path "${env:ProgramFiles}\Git\Bin"
 
-write-output "Configuring aliases" 
+write-output "Configuring aliases ..." 
 Write-Progress -Activity "Configuring environment" -Status "Declaring Aliases" -PercentComplete 70
 set-alias sub "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
 set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
@@ -131,13 +139,12 @@ set-alias grep 'select-string' -scope global
 set-alias d "${env:ProgramFiles}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 set-alias xc "xunit.console.clr4" -scope global
-set-alias whereis "$env:SystemRoot/System32/where.exe" -scope global
-set-alias make "$env:DevRoot\Tools\GNU/make-3.82\Debug\make.exe" -scope global
+set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
+set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
 
 $Host.UI.RawUI.WindowTitle = "PowerRazzle"
 cd "$($env:DevRoot)Tools"
-write-output ''
-write-output '--- PowerRazzle is now at your command ---'
-write-output ''
+
+write-output "`n--- PowerRazzle is now at your command ---`n"
 
 popd
