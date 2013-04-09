@@ -1,3 +1,61 @@
+<<<<<<< HEAD
+*.*scc
+*.FileListAbsolute.txt
+*.aps
+*.bak
+*.[Cc]ache
+*.clw
+*.eto
+*.exe
+*.fb6lck
+*.fbl6
+*.fbpInf
+*.ilk
+*.lib
+*.log
+*.ncb
+*.nlb
+*.obj
+*.patch
+*.pch
+*.pdb    
+*.plg
+*.[Pp]ublish.xml
+*.rdl.data
+*.sbr
+*.scc
+*.sig
+*.sqlsuo
+*.suo
+*.svclog
+*.tlb
+*.tlh
+*.tli
+*.tmp
+*.user
+*.vshost.*
+*DXCore.Solution
+*_i.c
+*_p.c
+Ankh.Load
+Backup*
+CVS/
+PrecompiledWeb/
+UpgradeLog*.*
+[Bb]in/
+[Dd]ebug/
+[Oo]bj/
+[Rr]elease/
+[Tt]humbs.db
+[Tt]est[Rr]esults/
+_UpgradeReport_Files
+_[Rr]e[Ss]harper.*/
+hgignore[.-]*
+ignore[.-]*
+svnignore[.-]*
+lint.db
+[Aa]pp[Pp]ackages/
+=======
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/
@@ -109,3 +167,4 @@ UpgradeLog*.XML
 
 # Added by VS' Web Essentials extension for per-dev settings.
 WE-settings.xml
+>>>>>>> 34263e00d546b40933d1a0b948282fdaf648bb62
