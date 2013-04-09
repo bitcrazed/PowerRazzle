@@ -53,3 +53,4 @@ hgignore[.-]*
 ignore[.-]*
 svnignore[.-]*
 lint.db
+[Aa]pp[Pp]ackages/

@@ -1,7 +1,5 @@
 function Find-Path($Path, [switch]$All=$false, [Microsoft.PowerShell.Commands.TestPathType]$type="Any")
 {
-## You could  comment out the function stuff and use it as a script instead, with this line:
-# param($Path, [switch]$All=$false, [Microsoft.PowerShell.Commands.TestPathType]$type="Any")
     if($(Test-Path $Path -Type $type)) {
        return $path
     } else {
