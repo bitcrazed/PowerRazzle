@@ -131,6 +131,8 @@ set-alias grep 'select-string' -scope global
 set-alias d "${env:ProgramFiles}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 set-alias xc "xunit.console.clr4" -scope global
+set-alias whereis "$env:SystemRoot/System32/where.exe" -scope global
+set-alias make "$env:DevRoot\Tools\GNU/make-3.82\Debug\make.exe" -scope global
 
 $Host.UI.RawUI.WindowTitle = "PowerRazzle"
 cd "$($env:DevRoot)Tools"
