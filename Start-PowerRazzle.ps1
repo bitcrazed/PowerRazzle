@@ -78,8 +78,8 @@ pushd
 # In case we're called from somewhere other than $profile, find the dev root folder:
 if (!$env:DevRoot)
 {
-    if (test-path 'd:\dev\') { $env:DevRoot = 'd:\dev\' }
-    elseif (test-path 'c:\dev\') { $env:DevRoot = 'c:\dev\' }
+    if (test-path 'c:\dev\') { $env:DevRoot = 'c:\dev\' }
+    elseif (test-path 'd:\dev\') { $env:DevRoot = 'd:\dev\' }
     else { throw 'Cannot find dev path' }
 }
 
