@@ -29,25 +29,3 @@ catch {
 
 #Install Chocolatey packages:
 cinst packages.config
-
-# Check if NPM is on the path. If not, ask the user to re-run.
-try {
-    find-path "node.exe"
-
-    # Check if NPM is on the path. If not, ask the user to re-run.
-    try {
-        find-path "npm.cmd"
-
-        # Install NPM global packages (defined in packages.json):
-        npm install -global
-    }
-    catch {
-        write-error 'Please re-run Install-PowerRazzle to continue installing components (npm)'
-    }
-}
-catch {
-    # Install node.js and npm
-    cinst nodejs.install
-    write-error 'Please re-run Install-PowerRazzle to continue installing missing components (node)'
-}
-

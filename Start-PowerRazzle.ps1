@@ -34,19 +34,19 @@ function global:Find-Path($Path, [switch]$All=$false, [Microsoft.PowerShell.Comm
 }
 
 #--- Private Functions ---
-function add-path([string] $folder, [bool] $quiet = $false)
+function global:add-path([string] $folder, [bool] $quiet = $false)
 {
     $paths = $env:Path -split ';'
-    if (!$paths.Contains($folder))
+    if ($($paths | where {$_ -like "*git*" }).Count -eq 0)
     {
         $paths += $folder
         $newPath = $paths -join ';'
         $env:path = $newPath
-        if (!$quiet) { write-output "    '$folder' added" }
+        if (!$quiet) { write-output "'$folder' added to the path" }
     }
     else
     {
-        if (!$quiet) { write-warning "Folder '$folder' already exists in the path ($quiet) - skipping" }
+        if (!$quiet) { write-warning "Folder '$folder' already exists in the path - skipping" }
     }
 }
 
@@ -71,8 +71,9 @@ function exec-cmdscript([string] $script, [string] $parameters)
 }
 
 #--- Initialise PowerRazzle environment:
-write-output ''
-write-output '--- Power Razzle Developer Console ---'
+write-output '######################################################################'
+write-output '                  PowerRazzle Developer Console'
+write-output '----------------------------------------------------------------------'
 pushd
 
 # In case we're called from somewhere other than $profile, find the dev root folder:
@@ -83,8 +84,10 @@ if (!$env:DevRoot)
     else { throw 'Cannot find dev path' }
 }
 
-write-output 'Installing Developer Tools:'
+add-path "${env:ProgramFiles(x86)}\Git\Bin" $true
 
+<#
+write-output 'Installing Developer Tools:'
 ### Install latest Visual Studio SDK if present:
 if (test-path "${env:ProgramFiles(x86)}\Microsoft Visual Studio*") 
 {
@@ -126,25 +129,25 @@ else
 {
     write-warning '    No Azure Command-Line Installed!'
 }
+#>
 
-write-output "Updating the path"
-Write-Progress -Activity "Configuring environment" -Status "Updating Path" -PercentComplete 50
-add-path "${env:ProgramFiles}\Git\Bin"
-
-write-output "Configuring aliases ..." 
-Write-Progress -Activity "Configuring environment" -Status "Declaring Aliases" -PercentComplete 70
-set-alias sub "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
+write-output "Configuring aliases" 
 set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
 set-alias grep 'select-string' -scope global
-set-alias d "${env:ProgramFiles}\Beyond Compare 3\BComp.com" -scope global
+set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 set-alias xc "xunit.console.clr4" -scope global
 set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
 
+write-output "Currently Active PowerShell Modules:"
+get-module -All | % { "    $_.Name" }
+
 $Host.UI.RawUI.WindowTitle = "PowerRazzle"
 cd "$($env:DevRoot)Tools"
 
-write-output "`n--- PowerRazzle is now at your command ---`n"
-
+write-output '----------------------------------------------------------------------'
+write-output "                PowerRazzle is now at your command!"
+write-output '######################################################################'
+write-output ''
 popd
