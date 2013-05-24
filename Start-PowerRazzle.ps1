@@ -33,19 +33,12 @@ function global:Find-Path($Path, [switch]$All=$false, [Microsoft.PowerShell.Comm
     throw "Couldn't find a matching path of type $type"
 }
 
-#--- Private Functions ---
 function global:add-path([string] $folder, [bool] $quiet = $false)
 {
-    if (!$quiet) { [System.Console]::Write("Adding '$folder' to the path ... ") }
-    $folders = $env:Path -split ';' | where {$_ -eq $folder }
-    if (${$folders.Count} > 0)
+    if (($env:Path -split ';' | where {$_ -eq $folder }).Count -eq 0)
     {
         $env:path += ';' + $folder
-        if (!$quiet) { write-output "Done" }
-    }
-    else
-    {
-        if (!$quiet) { write-output "Skipping: Folder already exists in the path!" }
+        if (!$quiet) { write-output "Added '$folder' to the path" }
     }
 }
 
@@ -84,51 +77,7 @@ if (!$env:DevRoot)
 }
 
 add-path "${env:ProgramFiles(x86)}\Git\Bin"
-
-<#
-write-output 'Installing Developer Tools:'
-### Install latest Visual Studio SDK if present:
-if (test-path "${env:ProgramFiles(x86)}\Microsoft Visual Studio*") 
-{
-    Write-Progress -Activity 'Configuring environment' -Status 'Configuring Visual Studio environment variables' -PercentComplete 20
-    $vsFolder = dir "${env:ProgramFiles(x86)}\Microsoft Visual Studio*" | 
-        where {$_ -notlike '*SDK*' } | 
-        sort {[System.Double]::Parse($_.Name.Replace('Microsoft Visual Studio ', ''))} -Descending | 
-        select -First 1 -Unique -ExpandProperty Name
-    $vsPath = "${env:ProgramFiles(x86)}\$vsFolder"    
-    exec-cmdscript "$vsPath\VC\vcvarsall.bat" x86
-    write-output "    Configured $vsFolder environment"
-}
-else
-{
-    write-warning '    Could not locate Visual Studio!'
-}
-
-# Find the latest version of the Azure SDK:
-$azureSdkPath = "$env:ProgramW6432\Microsoft SDKs\Windows Azure\.NET SDK"
-if (test-path $azureSdkPath) 
-{
-    Write-Progress -Activity "Configuring environment" -Status "Configuring Azure Development environment variables" -PercentComplete 30
-    $azureVersion = dir $azureSdkPath | sort -Descending | Select -First 1 -Unique
-    exec-cmdscript "$azureSdkPath\$azureVersion\bin\setenv.cmd" | out-null
-	write-output "    Using Azure SDK version $azureVersion"
-}
-else
-{
-	write-warning '    No Azure SDK Installed!'
-}
-
-#Find whether the Azure Command Line is Installed:
-$azureCommandLinePath = "${$env:ProgramFiles(x86)}\Microsoft SDKs\Windows Azure\PowerShell\Azure"
-if (test-path $azureSdkPath) 
-{
-    write-output "    Azure Command-Line Tools Installed"
-}
-else
-{
-    write-warning '    No Azure Command-Line Installed!'
-}
-#>
+write-output "Using $(git --version)"
 
 write-output "Configuring aliases" 
 set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
@@ -140,7 +89,7 @@ set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
 
 write-output "Currently Active PowerShell Modules:"
-get-module -All | % { "    $_" }
+get-module -All | % { "  $_" }
 
 write-output '----------------------------------------------------------------------'
 write-output "                PowerRazzle is now at your command!"
