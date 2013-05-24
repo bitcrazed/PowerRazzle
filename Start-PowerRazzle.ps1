@@ -36,17 +36,16 @@ function global:Find-Path($Path, [switch]$All=$false, [Microsoft.PowerShell.Comm
 #--- Private Functions ---
 function global:add-path([string] $folder, [bool] $quiet = $false)
 {
-    $paths = $env:Path -split ';'
-    if ($($paths | where {$_ -like "*git*" }).Count -eq 0)
+    if (!$quiet) { [System.Console]::Write("Adding '$folder' to the path ... ") }
+    $folders = $env:Path -split ';' | where {$_ -eq $folder }
+    if (${$folders.Count} > 0)
     {
-        $paths += $folder
-        $newPath = $paths -join ';'
-        $env:path = $newPath
-        if (!$quiet) { write-output "'$folder' added to the path" }
+        $env:path += ';' + $folder
+        if (!$quiet) { write-output "Done" }
     }
     else
     {
-        if (!$quiet) { write-warning "Folder '$folder' already exists in the path - skipping" }
+        if (!$quiet) { write-output "Skipping: Folder already exists in the path!" }
     }
 }
 
@@ -84,7 +83,7 @@ if (!$env:DevRoot)
     else { throw 'Cannot find dev path' }
 }
 
-add-path "${env:ProgramFiles(x86)}\Git\Bin" $true
+add-path "${env:ProgramFiles(x86)}\Git\Bin"
 
 <#
 write-output 'Installing Developer Tools:'
@@ -141,10 +140,7 @@ set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
 
 write-output "Currently Active PowerShell Modules:"
-get-module -All | % { "    $_.Name" }
-
-$Host.UI.RawUI.WindowTitle = "PowerRazzle"
-cd "$($env:DevRoot)Tools"
+get-module -All | % { "    $_" }
 
 write-output '----------------------------------------------------------------------'
 write-output "                PowerRazzle is now at your command!"
