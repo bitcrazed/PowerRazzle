@@ -23,19 +23,14 @@ Usage
 Open PowerShell and you should see something similar to the following welcome banner:
 
 ```
-Windows PowerShell
-Copyright (C) 2012 Microsoft Corporation. All rights reserved.
+######################################################################
+  PowerRazzle Developer Console (Version: 1.0.5)
+  Fork me on GitHub: https://github.com/bitcrazed/PowerRazzle
+----------------------------------------------------------------------
+  Using git version 1.8.1.msysgit.1
+----------------------------------------------------------------------
+  PowerRazzle is now at your command!
+######################################################################
 
-
---- Power Razzle Developer Console ---
-Installing Developer Tools:
-    Configured Microsoft Visual Studio 11.0 environment
-    Using Azure SDK version v1.6
-Updating the path
-    'C:\Program Files (x86)\Git\Bin' added
-Configuring aliases
-
---- PowerRazzle is now at your command ---
-
-D:\dev>
+C:\dev>
 ```
