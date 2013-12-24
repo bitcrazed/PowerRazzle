@@ -47,7 +47,7 @@ write-output "  Using $(git --version)"
 set-alias grep 'select-string' -scope global
 set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 
-set-alias subl "${env:ProgramW6432}\Sublime Text 2\sublime_text.exe" -scope global
+set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
 set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
