@@ -25,9 +25,9 @@ function add-path([string] $folder, [bool] $quiet = $false)
 {
     if (($env:Path -split ';' | where {$_ -eq $folder }).Count -eq 0)
     {
-        if ($env:path[$env:path.length - 1] -ne ';') { $folder = ";$folder" }
+        if ($env:path[$env:path.length - 1] -ne ';') { $env:path += ';' }
         $env:path += $folder
-        if (!$quiet) { write-output "Added '$folder' to the path" }
+        if (!$quiet) { write-output "  + Added '$folder' to the path" }
     }
 }
 
@@ -50,10 +50,11 @@ set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
 set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
-set-alias make "$env:DevRoot\Tools\GNU\make-3.82\Debug\make.exe" -scope global
+
+cd $env:DevRoot
 
 write-output '----------------------------------------------------------------------'
 write-output '  PowerRazzle is now at your command!'
 write-output '######################################################################'
 write-output ''
-popd
+
