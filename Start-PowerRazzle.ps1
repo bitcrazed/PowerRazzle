@@ -21,7 +21,7 @@ function global:Up([int] $numlevels)
 }
 
 # Add a folder to the path (if it's not already in the path)
-function add-path([string] $folder, [bool] $quiet = $false)
+function global:Add-Path([string] $folder, [bool] $quiet = $false)
 {
     if (($env:Path -split ';' | where {$_ -eq $folder }).Count -eq 0)
     {
