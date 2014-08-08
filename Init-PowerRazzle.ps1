@@ -2,13 +2,13 @@
 # Copyright 2011-2013, Richard Turner (rich@bitcrazed.com)
 # Master Source: https://github.com/bitcrazed/PowerRazzle
 # Creative Commons Attribution: Non-Commercial Share Alike (CC BY-NC-SA)
-$powerRazzleVersion = '1.0.5'
+$powerRazzleVersion = '1.0.6'
 
 #--- Initialise PowerRazzle environment:
-write-output '######################################################################'
-write-output "  PowerRazzle Developer Console (Version: $powerRazzleVersion)"
-write-output '  Fork me on GitHub: https://github.com/bitcrazed/PowerRazzle'
-write-output '----------------------------------------------------------------------'
+write-host '######################################################################'
+write-host "  PowerRazzle Developer Console (Version: $powerRazzleVersion)"
+write-host '  Fork me on GitHub: https://github.com/bitcrazed/PowerRazzle'
+write-host '  Initializing ...'
 pushd
 
 # Global functions:
@@ -27,7 +27,7 @@ function global:Add-Path([string] $folder, [bool] $quiet = $false)
     {
         if ($env:path[$env:path.length - 1] -ne ';') { $env:path += ';' }
         $env:path += $folder
-        if (!$quiet) { write-output "  + Added '$folder' to the path" }
+        if (!$quiet) { write-host "    + Added '$folder' to the path" }
     }
 }
 
@@ -41,7 +41,7 @@ if (!$env:DevRoot)
 
 # Add Git to the path (just in case it wasn't already!)
 add-path "${env:ProgramFiles(x86)}\Git\Bin"
-write-output "  Using $(git --version)"
+write-host "    + Using $(git --version)"
 
 # Add/Remove/Modify the following aliases to your needs
 set-alias grep 'select-string' -scope global
@@ -56,13 +56,6 @@ if ($ffmpeg) {
     set-alias ffmpeg "c:\tools\$($ffmpeg.Name)\bin\ffmpeg.exe" -scope global
 }
 
-#Configure GIT colors for this session:
-$global:GitPromptSettings.WorkingForegroundColor    = [ConsoleColor]::Yellow 
-$global:GitPromptSettings.UntrackedForegroundColor  = [ConsoleColor]::Cyan
-
 cd $env:DevRoot
 
-write-output '----------------------------------------------------------------------'
-write-output '  PowerRazzle is now at your command!'
-write-output '######################################################################'
-write-output ''
+write-host '  Done'
