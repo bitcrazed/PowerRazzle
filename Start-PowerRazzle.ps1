@@ -46,10 +46,19 @@ write-output "  Using $(git --version)"
 # Add/Remove/Modify the following aliases to your needs
 set-alias grep 'select-string' -scope global
 set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
-
 set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
 set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
+
+# Alias FFMPEG if present:
+$ffmpeg = ls \tools\ffmpeg-* | sort {$_.Name} -Descending | select -First 1 -Property Name
+if ($ffmpeg) { 
+    set-alias ffmpeg "c:\tools\$($ffmpeg.Name)\bin\ffmpeg.exe" -scope global
+}
+
+#Configure GIT colors for this session:
+$global:GitPromptSettings.WorkingForegroundColor    = [ConsoleColor]::Yellow 
+$global:GitPromptSettings.UntrackedForegroundColor  = [ConsoleColor]::Cyan
 
 cd $env:DevRoot
 
@@ -57,4 +66,3 @@ write-output '------------------------------------------------------------------
 write-output '  PowerRazzle is now at your command!'
 write-output '######################################################################'
 write-output ''
-
