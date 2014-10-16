@@ -49,11 +49,12 @@ set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
 set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
 set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
+set-alias msbuild "${env:ProgramFiles(x86)}\MSBuild\12.0\bin\MSBuild.exe" -scope global
 
 # Alias FFMPEG if present:
-$ffmpeg = ls \tools\ffmpeg-* | sort {$_.Name} -Descending | select -First 1 -Property Name
+$ffmpeg = ls d:\tools\ffmpeg-* | sort {$_.Name} -Descending | select -First 1 -Property Name
 if ($ffmpeg) { 
-    set-alias ffmpeg "c:\tools\$($ffmpeg.Name)\bin\ffmpeg.exe" -scope global
+    set-alias ffmpeg "d:`\tools`\$($ffmpeg.Name)`\bin`\ffmpeg.exe" -scope global
 }
 
 cd $env:DevRoot
