@@ -31,6 +31,17 @@ function global:Add-Path([string] $folder, [bool] $quiet = $false)
     }
 }
 
+function global:Get-FolderSize([string] $p = '.\' )
+{
+    $objFSO = New-Object -com  Scripting.FileSystemObject
+    $folders = (dir $p | ? {$_.PSIsContainer -eq $True})
+    foreach ($folder in $folders)
+    {
+        $folder | Add-Member -MemberType NoteProperty -Name "SizeMB" -Value ('{0:f2} MB' -f (($objFSO.GetFolder($folder.FullName).Size) / 1MB)) -PassThru | select -Property FullName, SizeMB
+    }
+ 
+}
+
 # In case we're called from somewhere other than $profile, find the dev root folder:
 if (!$env:DevRoot)
 {
