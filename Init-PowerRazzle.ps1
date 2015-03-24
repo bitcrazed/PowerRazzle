@@ -1,8 +1,8 @@
 # PowerRazzle Developer Environment
-# Copyright 2011-2013, Richard Turner (rich@bitcrazed.com)
+# Copyright 2011-2015, Richard Turner (rich@bitcrazed.com)
 # Master Source: https://github.com/bitcrazed/PowerRazzle
 # Creative Commons Attribution: Non-Commercial Share Alike (CC BY-NC-SA)
-$powerRazzleVersion = '1.0.6'
+$powerRazzleVersion = '1.0.8'
 
 #--- Initialise PowerRazzle environment:
 write-host '######################################################################'
@@ -14,10 +14,7 @@ pushd
 # Global functions:
 function global:Up([int] $numlevels)
 {
-    for ($i = 0; $i -lt $numlevels; $i++)
-    {
-        cd ..
-    }
+    for ($i = 0; $i -lt $numlevels; $i++) { cd .. }
 }
 
 # Add a folder to the path (if it's not already in the path)
@@ -42,11 +39,16 @@ function global:Get-FolderSize([string] $p = '.\' )
  
 }
 
+function global:Get-LatestPath([string] $root)
+{
+	ls $root | sort -Descending | select -First 1 | select -ExpandProperty FullName
+}
+
 # In case we're called from somewhere other than $profile, find the dev root folder:
 if (!$env:DevRoot)
 {
-    if (test-path 'c:\dev\') { $env:DevRoot = 'c:\dev\' }
-    elseif (test-path 'd:\dev\') { $env:DevRoot = 'd:\dev\' }
+    if (test-path 'c:\dev\') { $env:DevRoot = 'c:\dev' }
+    elseif (test-path 'd:\dev\') { $env:DevRoot = 'd:\dev' }
     else { throw 'Cannot find dev path' }
 }
 
@@ -54,19 +56,29 @@ if (!$env:DevRoot)
 add-path "${env:ProgramFiles(x86)}\Git\Bin"
 write-host "    + Using $(git --version)"
 
+# Ensure we have the latest Java on the path:
+$java = Get-LatestPath 'C:\Program Files\Java\jdk*\' 
+if ($java)
+{
+    $env:JAVA_HOME = "$java"
+    add-path "$java\bin\"
+}
+
+# The following toolsets are needed on the path:
+add-path "${env:ProgramFiles(x86)}\Microsoft SDKs\F#\4.0\Framework\v4.0\"
+add-path "$env:DevRoot\tools\Maven\Bin"
+add-path "$env:DevRoot\tools\activator"
+
 # Add/Remove/Modify the following aliases to your needs
 set-alias grep 'select-string' -scope global
 set-alias whereis "$env:SystemRoot\System32\where.exe" -scope global
-set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
-set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
-set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
-set-alias msbuild "${env:ProgramFiles(x86)}\MSBuild\12.0\bin\MSBuild.exe" -scope global
 
-# Alias FFMPEG if present:
-$ffmpeg = ls d:\tools\ffmpeg-* | sort {$_.Name} -Descending | select -First 1 -Property Name
-if ($ffmpeg) { 
-    set-alias ffmpeg "d:`\tools`\$($ffmpeg.Name)`\bin`\ffmpeg.exe" -scope global
-}
+# Only need aliases for the following as they're the only tools (needed) in the target folder:
+set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
+set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
+set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
+set-alias msbuild "${env:ProgramFiles(x86)}\MSBuild\14.0\bin\MSBuild.exe" -scope global
+set-alias vertx "$env:DevRoot\tools\vert.x-2.1.5\bin\vertx.bat" -scope global
 
 cd $env:DevRoot
 
