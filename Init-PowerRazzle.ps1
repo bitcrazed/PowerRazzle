@@ -57,17 +57,17 @@ add-path "${env:ProgramFiles(x86)}\Git\Bin"
 write-host "    + Using $(git --version)"
 
 # Ensure we have the latest Java on the path:
+<#
 $java = Get-LatestPath 'C:\Program Files\Java\jdk*\' 
 if ($java)
 {
     $env:JAVA_HOME = "$java"
     add-path "$java\bin\"
 }
+#>
 
 # The following toolsets are needed on the path:
 add-path "${env:ProgramFiles(x86)}\Microsoft SDKs\F#\4.0\Framework\v4.0\"
-add-path "$env:DevRoot\tools\Maven\Bin"
-add-path "$env:DevRoot\tools\activator"
 
 # Add/Remove/Modify the following aliases to your needs
 set-alias grep 'select-string' -scope global
@@ -78,7 +78,6 @@ set-alias d "${env:ProgramFiles(x86)}\Beyond Compare 3\BComp.com" -scope global
 set-alias subl "${env:ProgramW6432}\Sublime Text 3\sublime_text.exe" -scope global
 set-alias wpi "${env:ProgramW6432}\Microsoft\Web Platform Installer\WebPiCmd.exe" -scope global
 set-alias msbuild "${env:ProgramFiles(x86)}\MSBuild\14.0\bin\MSBuild.exe" -scope global
-set-alias vertx "$env:DevRoot\tools\vert.x-2.1.5\bin\vertx.bat" -scope global
 
 cd $env:DevRoot
 
