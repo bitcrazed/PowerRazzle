@@ -1,7 +1,7 @@
 # PowerRazzle
 PowerShell-based Command-Line environment configuring environment variables, declaring useful functions, aliases, etc. Also contains useful PowerShell CommandLets and Command-Line scripts.
 
-#Installation
+# Installation
 Clone this repo to your favorite development tools root, e.g. `<drive>:\Dev\PowerRazzle\`.
 
 # Usage
