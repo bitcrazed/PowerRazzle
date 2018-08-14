@@ -5,4 +5,8 @@ PowerShell-based Command-Line environment configuring environment variables, dec
 Clone this repo to your favorite development tools root, e.g. `<drive>:\Dev\PowerRazzle\`.
 
 # Usage
-Configure a shortcut pinned to your taskbar etc. to call `Start-PowerRazzle.ps1`, or add to your `$profile`.
+Configure a shortcut pinned to your taskbar etc. to call `Start-PowerRazzle.ps1`, or call from your `$profile`:
+
+``` powershell
+& c:\dev\Start-PowerRazzle.ps1
+```
